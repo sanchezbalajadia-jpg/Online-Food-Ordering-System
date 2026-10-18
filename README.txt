@@ -1,4 +1,4 @@
-# Ember Eats — Online Food Ordering System
+# Nyok Eats — Online Food Ordering System
 
 A responsive student project built with plain HTML, CSS, and JavaScript.
 
