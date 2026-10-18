@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple online food ordering demo built with HTML, CSS, and JavaScript.">
+  <title>Ember Eats | Online Food Ordering</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Ember Eats home">
+      <span class="brand-mark">E</span>
+      <span>Nyok<span class="accent">Eats</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#menu">Menu</a>
+      <a href="#about">About</a>
+    </nav>
+    <button class="cart-toggle" id="cartToggle" type="button" aria-label="Open shopping cart">
+      <span aria-hidden="true">🛒</span>
+      <span class="cart-toggle-label">Your Cart</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> FRESHLY MADE, JUST FOR YOU</p>
+        <h1>Good food.<br><span class="accent">Good mood.</span></h1>
+        <p class="hero-description">Your cravings, delivered to your screen. Pick your favorites, add them to your cart,
+          and place your order in a few clicks.</p>
+        <a class="primary-button hero-button" href="#menu">Explore the menu <span aria-hidden="true">→</span></a>
+        <div class="hero-notes">
+          <span><span class="note-icon">✓</span> Made to order</span>
+          <span><span class="note-icon">✓</span> Easy checkout</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Featured meal illustration">
+        <div class="hero-glow"></div>
+        <div class="hero-sticker sticker-top">HOT &amp; FRESH</div>
+        <div class="hero-food" aria-hidden="true">🍔</div>
+        <div class="hero-sticker sticker-bottom">100% CRAVEABLE</div>
+        <div class="floating-chip chip-one">🍟</div>
+        <div class="floating-chip chip-two">🥤</div>
+      </div>
+    </section>
+
+    <section class="menu-section section-wrap" id="menu">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">THE GOOD STUFF</p>
+          <h2>Explore our <span class="accent">menu</span></h2>
+          <p class="section-subtitle">Something delicious for every kind of craving.</p>
+        </div>
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input type="search" id="searchInput" placeholder="Search food..." aria-label="Search food menu">
+        </label>
+      </div>
+
+      <div class="category-list" id="categoryList" aria-label="Filter menu by category">
+        <button class="category-button active" data-category="All" type="button">All items</button>
+        <button class="category-button" data-category="Burgers" type="button">🍔 Burgers</button>
+        <button class="category-button" data-category="Pizza" type="button">🍕 Pizza</button>
+        <button class="category-button" data-category="Chicken" type="button">🍗 Chicken</button>
+        <button class="category-button" data-category="Sides" type="button">🍟 Sides</button>
+        <button class="category-button" data-category="Drinks" type="button">🥤 Drinks</button>
+        <button class="category-button" data-category="Desserts" type="button">🍰 Desserts</button>
+      </div>
+
+      <div class="food-grid" id="foodGrid" aria-live="polite"></div>
+      <p class="empty-menu hidden" id="emptyMenu">No food matched your search. Try another name or category.</p>
+    </section>
+
+    <section class="about-strip section-wrap" id="about">
+      <div class="about-icon">🍴</div>
+      <div>
+        <h3>Made for your cravings.</h3>
+        <p>NyokEats is a sample food ordering website created for a student web development project.</p>
+      </div>
+      <span class="demo-label">STUDENT PROJECT DEMO</span>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#"><span class="brand-mark">E</span><span>ember<span
+          class="accent">eats</span></span></a>
+    <p>© <span id="year"></span> NyokEats. Demo ordering website.</p>
+    <a href="#menu">Back to menu ↑</a>
+  </footer>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-labelledby="cartTitle" aria-hidden="true">
+    <div class="drawer-header">
+      <div>
+        <p class="eyebrow">READY WHEN YOU ARE</p>
+        <h2 id="cartTitle">Your cart <span class="cart-title-count" id="cartTitleCount">(0)</span></h2>
+      </div>
+      <button class="icon-button" id="closeCart" type="button" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty">
+      <span>🛍️</span>
+      <h3>Your cart is empty</h3>
+      <p>Find something tasty in the menu.</p>
+      <button class="secondary-button" id="browseMenu" type="button">Browse menu</button>
+    </div>
+    <div class="cart-summary" id="cartSummary">
+      <div class="summary-line"><span>Subtotal</span><strong id="subtotalAmount">₱0.00</strong></div>
+      <div class="summary-line"><span>Delivery fee</span><strong id="deliveryAmount">₱0.00</strong></div>
+      <div class="summary-line total-line"><span>Total</span><strong id="totalAmount">₱0.00</strong></div>
+      <p class="delivery-note">Delivery fee is a demo estimate of ₱49.00.</p>
+      <button class="primary-button checkout-button" id="checkoutButton" type="button">Continue to checkout
+        <span>→</span></button>
+    </div>
+  </aside>
+
+  <div class="modal-backdrop" id="checkoutBackdrop">
+    <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">ALMOST THERE</p>
+          <h2 id="checkoutTitle">Checkout</h2>
+          <p class="section-subtitle">Enter your details to place this demo order.</p>
+        </div>
+        <button class="icon-button" id="closeCheckout" type="button" aria-label="Close checkout">✕</button>
+      </div>
+      <form id="checkoutForm">
+        <div class="form-grid">
+          <label class="form-field full-width">Full name
+            <input name="customerName" type="text" placeholder="e.g. Juan Dela Cruz" required maxlength="80"
+              autocomplete="name">
+          </label>
+          <label class="form-field">Contact number
+            <input name="phone" type="tel" placeholder="09XX XXX XXXX" required maxlength="20" autocomplete="tel">
+          </label>
+          <label class="form-field">Payment method
+            <select name="paymentMethod" required>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+              <option value="GCash (demo only)">GCash (demo only)</option>
+              <option value="Pay at pickup">Pay at pickup</option>
+            </select>
+          </label>
+          <label class="form-field full-width">Delivery address
+            <textarea name="address" placeholder="House number, street, barangay, city" required rows="3"
+              maxlength="250" autocomplete="street-address"></textarea>
+          </label>
+          <label class="form-field full-width">Order notes <span class="optional">(optional)</span>
+            <textarea name="notes" placeholder="Any special instructions?" rows="2" maxlength="250"></textarea>
+          </label>
+        </div>
+        <div class="checkout-total">
+          <span>Order total</span>
+          <strong id="checkoutTotal">₱0.00</strong>
+        </div>
+        <p class="privacy-note">Demo only: no payment is processed and order details are not sent to a server.</p>
+        <button class="primary-button place-order-button" type="submit">Place order <span>→</span></button>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="confirmationBackdrop">
+    <section class="confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle">
+      <div class="success-icon">✓</div>
+      <p class="eyebrow">ORDER RECEIVED</p>
+      <h2 id="confirmationTitle">You're all set!</h2>
+      <p class="confirmation-message" id="confirmationMessage">Your demo order has been placed.</p>
+      <div class="receipt-box" id="receiptBox"></div>
+      <p class="privacy-note">This is a local demo confirmation. It does not contact a restaurant or process payment.
+      </p>
+      <button class="primary-button" id="finishOrder" type="button">Back to menu</button>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+
+</html>
